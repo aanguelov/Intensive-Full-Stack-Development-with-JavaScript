@@ -1,0 +1,1 @@
+import './beauty-salon.jsx';
