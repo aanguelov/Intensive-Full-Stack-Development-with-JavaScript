@@ -56,5 +56,26 @@ server.route([
                 reply(JSON.parse(data));
             })
         }
+    },
+    {
+        method: 'GET',
+        path: '/api/procedures/{id}',
+        handler: function(request, reply) {
+            fs.readFile(PROCEDURES_FILE, function(err, data) {
+                if(err) {
+                    throw err;
+                }
+
+                let procedures = JSON.parse(data);
+                let procedureToFind = {};
+                procedures.forEach((procedure) => {
+                    if(procedure.id === parseInt(request.params.id)) {
+                        procedureToFind = procedure;
+                    }
+                });
+
+                reply(procedureToFind);
+            })
+        }
     }
 ]);

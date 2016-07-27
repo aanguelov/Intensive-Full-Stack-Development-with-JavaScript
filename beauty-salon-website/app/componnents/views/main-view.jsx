@@ -18,7 +18,6 @@ class MainView extends React.Component {
             dataType: 'json',
             cache: false
         }).done((data) => {
-            console.log(this.props);
             this.setState({ data: data });
         }).fail((xhr, status, err) => {
             console.error(this.props.route.url, status, err.toString());
@@ -27,7 +26,7 @@ class MainView extends React.Component {
 
     componentDidMount() {
         this.loadProcedures();
-        //setInterval(this.loadProcedures, this.props.route.pollInterval);
+        setInterval(this.loadProcedures, this.props.route.pollInterval);
     }
 
     render() {

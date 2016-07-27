@@ -1,11 +1,13 @@
 'use strict';
 
 import React from 'react';
+import Navlink from './nav-link.jsx';
 
 const ProcedureNames = (props) => {
     let procedures = props.data.map((procedure) => {
+        let path = '/procedures/' + procedure.id;
         return(
-            <li key={procedure.id}>{procedure.name}</li>
+            <Navlink to={path} key={procedure.id}>{procedure.name}</Navlink>
         )
     });
 
