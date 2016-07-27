@@ -77,5 +77,31 @@ server.route([
                 reply(procedureToFind);
             })
         }
+    },
+    {
+        method: 'POST',
+        path: '/api/procedures',
+        handler: function(request, reply) {
+            fs.readFile(PROCEDURES_FILE, function(err, data) {
+                if(err) {
+                    throw err;
+                }
+
+                let procedures = JSON.parse(data);
+                let newProcedure = {
+                    id: Date.now(),
+                    name: request.payload.name,
+                    text: request.payload.text
+                };
+                procedures.push(newProcedure);
+
+                fs.writeFile(PROCEDURES_FILE, JSON.stringify(procedures, null, 4), function(err) {
+                    if(err) {
+                        throw err;
+                    }
+                    reply(newProcedure.id);
+                })
+            })
+        }
     }
 ]);

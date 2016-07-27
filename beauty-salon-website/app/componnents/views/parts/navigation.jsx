@@ -2,11 +2,12 @@
 
 import React from 'react';
 import ProcedureNames from './procedure-names.jsx';
+import { Link } from 'react-router';
 
 
 const Navigation = (props) => {
     return (
-        <nav className="navbar navbar-default">
+        <nav className="navbar navbar-inverse">
             <div className="container-fluid">
                 <div className="navbar-header">
                     <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -20,17 +21,15 @@ const Navigation = (props) => {
 
                 <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul className="nav navbar-nav">
+                        <li><a href="/">Home</a></li>
                         <li className="dropdown">
                             <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Процедури <span className="caret"></span></a>
                             <ProcedureNames data={props.data} />
                         </li>
                     </ul>
-                    <form className="navbar-form navbar-right" role="search">
-                        <div className="form-group">
-                            <input type="text" className="form-control" placeholder="Търси" />
-                        </div>
-                        <button type="submit" className="btn btn-default">Търсене</button>
-                    </form>
+                    <div className="navbar-form navbar-right">
+                        <Link to="/procedures/add"><button type="button" className="btn btn-primary">Добави процедура</button></Link>
+                    </div>
                     <ul className="nav navbar-nav navbar-right">
                         <li><a href="#">Логин</a></li>
                         <li><a href="#">Регистрация</a></li>

@@ -4,8 +4,8 @@ import React from 'react'
 
 const Home = () => {
     return (
-        <div>
-            <h2>Home</h2>
+        <div className="jumbotron container">
+            <h2 className="moto">Нашата мисия е вашата красота!</h2>
         </div>
     );
 };
