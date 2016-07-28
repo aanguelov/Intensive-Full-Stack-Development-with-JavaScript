@@ -103,5 +103,28 @@ server.route([
                 })
             })
         }
+    },
+    {
+        method: 'DELETE',
+        path: '/api/procedures/{id}',
+        handler: function(request, reply) {
+            fs.readFile(PROCEDURES_FILE, function(err, data) {
+                if(err) {
+                    throw err;
+                }
+
+                let procedures = JSON.parse(data);
+                procedures = procedures.filter((procedure) => {
+                    return procedure.id !== parseInt(request.params.id);
+                });
+
+                fs.writeFile(PROCEDURES_FILE, JSON.stringify(procedures, null, 4), function(err) {
+                    if(err) {
+                        throw err;
+                    }
+                    reply(request.params.id);
+                })
+            })
+        }
     }
 ]);

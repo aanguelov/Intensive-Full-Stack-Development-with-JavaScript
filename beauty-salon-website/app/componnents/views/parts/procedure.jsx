@@ -4,10 +4,11 @@ import React from 'react';
 import $ from 'jquery';
 
 class Procedure extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor(props, context) {
+        super(props, context);
         this.state = { procedure: {} };
         this.getProcedure = this.getProcedure.bind(this);
+        this.deleteProcedure = this.deleteProcedure.bind(this);
     }
 
     getProcedure(procedureId) {
@@ -18,6 +19,21 @@ class Procedure extends React.Component {
             cache: false
         }).done((data) => {
             this.setState({ procedure: data });
+        }).fail((xhr, status, err) => {
+            console.error(this.props.route.url, status, err.toString());
+        });
+    }
+
+    deleteProcedure() {
+        let procedureId = this.props.params.procedureId;
+        $.ajax({
+            method: 'DELETE',
+            url: this.props.route.url + '/' + procedureId,
+            dataType: 'json',
+            cache: false
+        }).done((data) => {
+            console.log(data);
+            this.context.router.push('/');
         }).fail((xhr, status, err) => {
             console.error(this.props.route.url, status, err.toString());
         });
@@ -39,7 +55,7 @@ class Procedure extends React.Component {
                 <div className="btn-group btn-group-md" role="group" aria-label="...">
                     <button type="button" className="btn btn-success">Запиши се</button>
                     <button type="button" className="btn btn-info">Обнови</button>
-                    <button type="button" className="btn btn-danger">Изтрий</button>
+                    <button type="button" onClick={this.deleteProcedure} className="btn btn-danger">Изтрий</button>
                 </div>
             </div>
         )
@@ -49,6 +65,10 @@ class Procedure extends React.Component {
 Procedure.propTypes = {
     route: React.PropTypes.object,
     params: React.PropTypes.object
+};
+
+Procedure.contextTypes = {
+    router: React.PropTypes.object
 };
 
 export default Procedure;
