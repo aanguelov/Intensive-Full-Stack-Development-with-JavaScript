@@ -10,6 +10,7 @@ import MainView from './componnents/views/main-view.jsx';
 import Home from './componnents/views/parts/home.jsx';
 import Procedure from './componnents/views/parts/procedure.jsx';
 import AddProcedure from './componnents/views/parts/add-procedure.jsx';
+import EditProcedure from './componnents/views/parts/edit-procedure.jsx';
 
 window.jQuery = $;
 
@@ -18,6 +19,7 @@ ReactDOM.render((
         <Route path="/" url="/api/procedures" pollInterval={2000} component={MainView}>
             <IndexRoute component={Home} />
             <Route path="/procedures/add" url="/api/procedures" component={AddProcedure} />
+            <Route path="/procedures/edit(/:procedureId)" url="/api/procedures" component={EditProcedure} />
             <Route path="/procedures(/:procedureId)" url="/api/procedures" component={Procedure} />
         </Route>
     </Router>

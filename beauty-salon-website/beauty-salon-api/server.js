@@ -126,5 +126,33 @@ server.route([
                 })
             })
         }
+    },
+    {
+        method: 'PUT',
+        path: '/api/procedures',
+        handler: function(request, reply) {
+            fs.readFile(PROCEDURES_FILE, function(err, data) {
+                if(err) {
+                    throw err;
+                }
+
+                let procedures = JSON.parse(data);
+                let newProcedure = request.payload;
+                newProcedure.id = parseInt(newProcedure.id);
+
+                procedures = procedures.filter((procedure) => {
+                    return procedure.id !== newProcedure.id;
+                });
+
+                procedures.push(newProcedure);
+
+                fs.writeFile(PROCEDURES_FILE, JSON.stringify(procedures, null, 4), function(err) {
+                    if(err) {
+                        throw err;
+                    }
+                    reply(newProcedure.id);
+                })
+            })
+        }
     }
 ]);

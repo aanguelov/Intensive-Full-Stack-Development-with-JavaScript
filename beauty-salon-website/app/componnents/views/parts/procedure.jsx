@@ -9,6 +9,7 @@ class Procedure extends React.Component {
         this.state = { procedure: {} };
         this.getProcedure = this.getProcedure.bind(this);
         this.deleteProcedure = this.deleteProcedure.bind(this);
+        this.handleEditProcedure = this.handleEditProcedure.bind(this);
     }
 
     getProcedure(procedureId) {
@@ -39,6 +40,11 @@ class Procedure extends React.Component {
         });
     }
 
+    handleEditProcedure() {
+        let path = '/procedures/edit/' + this.props.params.procedureId;
+        this.context.router.push(path);
+    }
+
     componentDidMount() {
         this.getProcedure(this.props.params.procedureId);
     }
@@ -54,7 +60,7 @@ class Procedure extends React.Component {
                 <div className="procedure-text">{this.state.procedure.text}</div>
                 <div className="btn-group btn-group-md" role="group" aria-label="...">
                     <button type="button" className="btn btn-success">Запиши се</button>
-                    <button type="button" className="btn btn-info">Обнови</button>
+                    <button type="button" onClick={this.handleEditProcedure} className="btn btn-info">Обнови</button>
                     <button type="button" onClick={this.deleteProcedure} className="btn btn-danger">Изтрий</button>
                 </div>
             </div>
