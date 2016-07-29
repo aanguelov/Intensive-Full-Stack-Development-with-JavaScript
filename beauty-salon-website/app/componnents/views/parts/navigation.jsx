@@ -31,7 +31,7 @@ const Navigation = (props) => {
                         <Link to="/procedures/add"><button type="button" className="btn btn-primary">Добави процедура</button></Link>
                     </div>
                     <ul className="nav navbar-nav navbar-right">
-                        <li><a href="#">Логин</a></li>
+                        <li><Link to="/users/login">Логин</Link></li>
                         <li><Link to="/users/register">Регистрация</Link></li>
                     </ul>
                 </div>

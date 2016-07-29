@@ -7,6 +7,7 @@ const Good = require('good');
 const Boom = require('boom');
 
 const PROCEDURES_FILE = path.join(__dirname, '../procedures.json');
+const USERS_FILE = path.join(__dirname, '../users.json');
 
 const server = new Hapi.Server();
 server.connection({ port: 9000 });
@@ -152,6 +153,76 @@ server.route([
                     }
                     reply(newProcedure.id);
                 })
+            })
+        }
+    },
+    {
+        method: 'POST',
+        path: '/api/users',
+        handler: function(request, reply) {
+            fs.readFile(USERS_FILE, function(err, data) {
+                if(err) {
+                    throw err;
+                }
+
+                let users = JSON.parse(data);
+                let newUser = {
+                    id: Date.now(),
+                    username: request.payload.username,
+                    password: request.payload.password,
+                    confirmPassword: request.payload.confirmPassword
+                };
+                users.push(newUser);
+
+                fs.writeFile(USERS_FILE, JSON.stringify(users, null, 4), function(err) {
+                    if(err) {
+                        throw err;
+                    }
+                    reply(newUser.id);
+                })
+            })
+        }
+    },
+    {
+        method: 'POST',
+        path: '/api/users/Token',
+        handler: function(request, reply) {
+            fs.readFile(USERS_FILE, function(err, data) {
+                if(err) {
+                    throw err;
+                }
+
+                let users = JSON.parse(data);
+                let currentUser = request.payload;
+
+                users.forEach((user) => {
+                    if(currentUser.username === user.username && currentUser.password === user.password) {
+                        reply(user);
+                    }else {
+                        reply(Boom.notFound('No such user!'));
+                    }
+                })
+            })
+        }
+    },
+    {
+        method: 'GET',
+        path: '/api/users/{id}',
+        handler: function(request, reply) {
+            fs.readFile(USERS_FILE, function(err, data) {
+                if(err) {
+                    throw err;
+                }
+
+                let users = JSON.parse(data);
+                let userToFind = {};
+                users.forEach((user) => {
+                    if(user.id === parseInt(request.params.id)) {
+                        userToFind = user;
+                    }
+                });
+
+                reply(userToFind);
             })
         }
     }

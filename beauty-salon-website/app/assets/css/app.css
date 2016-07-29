@@ -6,7 +6,7 @@ body {
     background-color: #5bc0de;
 }
 
-.procedure-name, .procedure-text, .moto {
+.procedure-name, .procedure-text, .moto, .username-greeting {
     text-align: center;
 }
 

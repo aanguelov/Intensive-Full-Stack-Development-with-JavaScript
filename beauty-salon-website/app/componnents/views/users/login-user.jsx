@@ -3,14 +3,13 @@
 import React from 'react';
 import $ from 'jquery';
 
-class RegisterUser extends React.Component {
+class LoginUser extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {username: '', password: '', confirmPassword: ''};
+        this.state = {username: '', password: ''};
         this.handleUsername = this.handleUsername.bind(this);
         this.handlePassword = this.handlePassword.bind(this);
-        this.handlePasswordConfirm = this.handlePasswordConfirm.bind(this);
-        this.registerUser = this.registerUser.bind(this);
+        this.loginUser = this.loginUser.bind(this);
     }
 
     handleUsername(event) {
@@ -21,20 +20,10 @@ class RegisterUser extends React.Component {
         this.setState({password: event.target.value});
     }
 
-    handlePasswordConfirm(event) {
-        this.setState({confirmPassword: event.target.value});
-    }
-
-    registerUser() {
-        if(this.state.password !== this.state.confirmPassword) {
-            console.log('Passwords do not match!');
-            return;
-        }
-
+    loginUser() {
         let user = {
             username: this.state.username,
-            password: this.state.password,
-            confirmPassword: this.state.confirmPassword
+            password: this.state.password
         };
 
         $.ajax({
@@ -42,12 +31,11 @@ class RegisterUser extends React.Component {
             url: this.props.route.url,
             dataType: 'json',
             data: user
-        }).done((userId) => {
-            let path = '/users/' + userId;
+        }).done((user) => {
+            let path = '/users/' + user.id;
             this.context.router.push(path);
-            //console.log(path);
         }).fail((xhr, status, err) => {
-            console.error(this.props.route.url, status, err.toString());
+            console.error(this.props.route.url, status, err);
         });
     }
 
@@ -62,22 +50,18 @@ class RegisterUser extends React.Component {
                     <label htmlFor="password">Парола</label>
                     <input type="password" className="form-control" id="password" onChange={this.handlePassword} />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="password-confirm">Потвърди паролата</label>
-                    <input type="password" className="form-control" id="password-confirm" onChange={this.handlePasswordConfirm} />
-                </div>
-                <button className="btn btn-primary" onClick={this.registerUser}>Регистрирай се</button>
+                <button className="btn btn-primary" onClick={this.loginUser}>Логни се</button>
             </div>
         )
     }
 }
 
-RegisterUser.propTypes = {
+LoginUser.propTypes = {
     route: React.PropTypes.object
 };
 
-RegisterUser.contextTypes = {
+LoginUser.contextTypes = {
     router: React.PropTypes.object
 };
 
-export default RegisterUser;
+export default LoginUser;
