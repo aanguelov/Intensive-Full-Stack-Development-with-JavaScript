@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import ProcedureNames from './procedure-names.jsx';
+import ProcedureNames from './../procedures/procedure-names.jsx';
 import { Link } from 'react-router';
 
 
@@ -16,12 +16,12 @@ const Navigation = (props) => {
                         <span className="icon-bar"></span>
                         <span className="icon-bar"></span>
                     </button>
-                    <a className="navbar-brand" href="/">Емисия красота</a>
+                    <Link className="navbar-brand" to="/">Емисия красота</Link>
                 </div>
 
                 <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul className="nav navbar-nav">
-                        <li><a href="/">Home</a></li>
+                        <li><Link to="/">Home</Link></li>
                         <li className="dropdown">
                             <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Процедури <span className="caret"></span></a>
                             <ProcedureNames data={props.data} />
@@ -32,7 +32,7 @@ const Navigation = (props) => {
                     </div>
                     <ul className="nav navbar-nav navbar-right">
                         <li><a href="#">Логин</a></li>
-                        <li><a href="#">Регистрация</a></li>
+                        <li><Link to="/users/register">Регистрация</Link></li>
                     </ul>
                 </div>
             </div>

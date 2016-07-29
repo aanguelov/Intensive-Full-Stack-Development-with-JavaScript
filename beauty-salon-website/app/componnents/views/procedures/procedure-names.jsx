@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Navlink from './nav-link.jsx';
+import Navlink from './../parts/nav-link.jsx';
 
 const ProcedureNames = (props) => {
     let procedures = props.data.map((procedure) => {
