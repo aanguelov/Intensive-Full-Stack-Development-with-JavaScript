@@ -195,7 +195,6 @@ server.route([
 
                 let users = JSON.parse(data);
                 let currentUser = request.payload;
-                console.log(currentUser);
 
                 users.forEach((user) => {
                     if(currentUser.username === user.username && currentUser.password === user.password) {
