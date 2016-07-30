@@ -6,6 +6,8 @@ import { Link } from 'react-router';
 
 
 const Navigation = (props) => {
+    let isAuthenticated = props.isAuthenticated();
+
     return (
         <nav className="navbar navbar-inverse">
             <div className="container-fluid">
@@ -30,10 +32,16 @@ const Navigation = (props) => {
                     <div className="navbar-form navbar-right">
                         <Link to="/procedures/add"><button type="button" className="btn btn-primary">Добави процедура</button></Link>
                     </div>
-                    <ul className="nav navbar-nav navbar-right">
-                        <li><Link to="/users/login">Логин</Link></li>
-                        <li><Link to="/users/register">Регистрация</Link></li>
-                    </ul>
+                    {
+                        !isAuthenticated ?
+                            <ul className="nav navbar-nav navbar-right">
+                                <li><Link to="/users/login">Логин</Link></li>
+                                <li><Link to="/users/register">Регистрация</Link></li>
+                            </ul>
+                        : <ul className="nav navbar-nav navbar-right">
+                            <li><Link to="/users/show">Профил</Link></li>
+                        </ul>
+                    }
                 </div>
             </div>
         </nav>
@@ -41,7 +49,8 @@ const Navigation = (props) => {
 };
 
 Navigation.propTypes = {
-    data: React.PropTypes.array
+    data: React.PropTypes.array,
+    isAuthenticated: React.PropTypes.func
 };
 
 export default Navigation;

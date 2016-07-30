@@ -5,5 +5,12 @@
         "password": "123456",
         "confirmPassword": "123456",
         "isAdmin": true
+    },
+    {
+        "id": 1469889259329,
+        "username": "Sando",
+        "password": "111111",
+        "confirmPassword": "111111",
+        "isAdmin": false
     }
 ]

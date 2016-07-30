@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import $ from 'jquery';
 
 class LoginUser extends React.Component {
     constructor(props, context) {
@@ -9,7 +8,7 @@ class LoginUser extends React.Component {
         this.state = {username: '', password: ''};
         this.handleUsername = this.handleUsername.bind(this);
         this.handlePassword = this.handlePassword.bind(this);
-        this.loginUser = this.loginUser.bind(this);
+        this.handleLoginUser = this.handleLoginUser.bind(this);
     }
 
     handleUsername(event) {
@@ -20,22 +19,15 @@ class LoginUser extends React.Component {
         this.setState({password: event.target.value});
     }
 
-    loginUser() {
+    handleLoginUser() {
         let user = {
             username: this.state.username,
             password: this.state.password
         };
 
-        $.ajax({
-            method: 'POST',
-            url: this.props.route.url,
-            dataType: 'json',
-            data: user
-        }).done((user) => {
-            let path = '/users/' + user.id;
+        this.context.authService.loginUser(user).then(() => {
+            let path = '/users/show';
             this.context.router.push(path);
-        }).fail((xhr, status, err) => {
-            console.error(this.props.route.url, status, err);
         });
     }
 
@@ -50,7 +42,7 @@ class LoginUser extends React.Component {
                     <label htmlFor="password">Парола</label>
                     <input type="password" className="form-control" id="password" onChange={this.handlePassword} />
                 </div>
-                <button className="btn btn-primary" onClick={this.loginUser}>Логни се</button>
+                <button className="btn btn-primary" onClick={this.handleLoginUser}>Логни се</button>
             </div>
         )
     }
@@ -61,7 +53,8 @@ LoginUser.propTypes = {
 };
 
 LoginUser.contextTypes = {
-    router: React.PropTypes.object
+    router: React.PropTypes.object,
+    authService: React.PropTypes.object
 };
 
 export default LoginUser;

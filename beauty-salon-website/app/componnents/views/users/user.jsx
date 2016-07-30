@@ -7,13 +7,17 @@ class User extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = { user: {} };
+        this.isAuthenticated = context.authService.isAuthenticated();
+        this.isAdmin = context.authService.isAdmin();
+        this.currentUser = {};
         this.getUser = this.getUser.bind(this);
+        this.handleUserLogout = this.handleUserLogout.bind(this);
     }
 
-    getUser(userId) {
+    getUser() {
         $.ajax({
             method: 'GET',
-            url: this.props.route.url + '/' + userId,
+            url: this.props.route.url + '/' + this.currentUser.id,
             dataType: 'json',
             cache: false
         }).done((data) => {
@@ -23,14 +27,32 @@ class User extends React.Component {
         });
     }
 
+    handleUserLogout() {
+        this.context.authService.logoutUser();
+        this.currentUser = {};
+        this.context.router.push('/');
+    }
+
     componentDidMount() {
-        this.getUser(this.props.params.userId);
+        if(this.isAuthenticated) {
+            this.currentUser = this.context.authService.getUser();
+            this.getUser();
+        }else {
+            this.context.router.push('/');
+        }
     }
 
     render() {
         return(
             <div className="jumbotron container col-md-8 col-md-offset-2">
                 <h3 className="username-greeting">Здравей {this.state.user.username}</h3>
+                <button className="btn btn-primary" onClick={this.handleUserLogout}>Излез</button>
+                {
+                    this.isAdmin ?
+                        <button className="btn btn-info">Всички потребители</button>
+                    : null
+
+                }
             </div>
         )
     }
@@ -39,6 +61,11 @@ class User extends React.Component {
 User.propTypes = {
     route: React.PropTypes.object,
     params: React.PropTypes.object
+};
+
+User.contextTypes = {
+    router: React.PropTypes.object,
+    authService: React.PropTypes.object
 };
 
 export default User;

@@ -26,7 +26,7 @@ ReactDOM.render((
             <Route path="/procedures(/:procedureId)" url="/api/procedures" component={Procedure} />
             <Route path="/users/register" url="/api/users" component={RegisterUser} />
             <Route path="/users/login" url="/api/users/Token" component={LoginUser} />
-            <Route path="/users(/:userId)" url="/api/users" component={User} />
+            <Route path="/users/show" url="/api/users" component={User} />
         </Route>
     </Router>
 ), document.getElementById('main-container'));

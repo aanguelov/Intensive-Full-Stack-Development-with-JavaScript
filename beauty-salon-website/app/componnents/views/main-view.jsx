@@ -2,13 +2,21 @@
 
 import React from 'react';
 import Navigation from './parts/navigation';
+import AuthenticationService from '../.././services/authentication-service';
 import $ from 'jquery';
 
 class MainView extends React.Component {
     constructor(props){
         super(props);
         this.state = {data: []};
+        this.authenticationService = new AuthenticationService('/api/users');
         this.loadProcedures = this.loadProcedures.bind(this);
+    }
+
+    getChildContext() {
+        return {
+            authService: this.authenticationService
+        };
     }
 
     loadProcedures() {
@@ -32,7 +40,7 @@ class MainView extends React.Component {
     render() {
         return (
         <div>
-            <Navigation data={this.state.data} />
+            <Navigation data={this.state.data} isAuthenticated={this.authenticationService.isAuthenticated} />
 
             {/* Routed components go here... */}
             {this.props.children}
@@ -45,6 +53,10 @@ MainView.propTypes = {
     url: React.PropTypes.string,
     pollInterval: React.PropTypes.number,
     route: React.PropTypes.object
+};
+
+MainView.childContextTypes = {
+    authService: React.PropTypes.object
 };
 
 export default MainView;

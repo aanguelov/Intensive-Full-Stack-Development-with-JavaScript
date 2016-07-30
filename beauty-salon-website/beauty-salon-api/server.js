@@ -170,7 +170,8 @@ server.route([
                     id: Date.now(),
                     username: request.payload.username,
                     password: request.payload.password,
-                    confirmPassword: request.payload.confirmPassword
+                    confirmPassword: request.payload.confirmPassword,
+                    isAdmin: false
                 };
                 users.push(newUser);
 
@@ -178,7 +179,7 @@ server.route([
                     if(err) {
                         throw err;
                     }
-                    reply(newUser.id);
+                    reply(newUser);
                 })
             })
         }
@@ -194,12 +195,11 @@ server.route([
 
                 let users = JSON.parse(data);
                 let currentUser = request.payload;
+                console.log(currentUser);
 
                 users.forEach((user) => {
                     if(currentUser.username === user.username && currentUser.password === user.password) {
                         reply(user);
-                    }else {
-                        reply(Boom.notFound('No such user!'));
                     }
                 })
             })
