@@ -8,7 +8,7 @@ class User extends React.Component {
         super(props, context);
         this.state = { user: {} };
         this.isAuthenticated = context.authService.isAuthenticated();
-        this.isAdmin = context.authService.isAdmin();
+        this.isAdmin = false;
         this.currentUser = {};
         this.getUser = this.getUser.bind(this);
         this.handleUserLogout = this.handleUserLogout.bind(this);
@@ -35,6 +35,7 @@ class User extends React.Component {
 
     componentDidMount() {
         if(this.isAuthenticated) {
+            this.isAdmin = this.context.authService.isAdmin();
             this.currentUser = this.context.authService.getUser();
             this.getUser();
         }else {

@@ -7,6 +7,8 @@ class Procedure extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = { procedure: {} };
+        this.isAuthenticated = context.authService.isAuthenticated();
+        this.isAdmin = false;
         this.getProcedure = this.getProcedure.bind(this);
         this.deleteProcedure = this.deleteProcedure.bind(this);
         this.handleEditProcedure = this.handleEditProcedure.bind(this);
@@ -47,6 +49,9 @@ class Procedure extends React.Component {
 
     componentDidMount() {
         this.getProcedure(this.props.params.procedureId);
+        if(this.isAuthenticated) {
+            this.isAdmin = this.context.authService.isAdmin();
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -58,11 +63,15 @@ class Procedure extends React.Component {
             <div className="jumbotron container">
                 <h2 className="procedure-name">{this.state.procedure.name}</h2>
                 <div className="procedure-text">{this.state.procedure.text}</div>
-                <div className="btn-group btn-group-md" role="group" aria-label="...">
-                    <button type="button" className="btn btn-success">Запиши се</button>
-                    <button type="button" onClick={this.handleEditProcedure} className="btn btn-info">Обнови</button>
-                    <button type="button" onClick={this.deleteProcedure} className="btn btn-danger">Изтрий</button>
-                </div>
+                <button type="button" className="btn btn-success">Запиши се</button>
+                {
+                    this.isAdmin ?
+                        <div className="pull-right">
+                            <button type="button" onClick={this.handleEditProcedure} className="btn btn-info">Редактирай</button>
+                            <button type="button" onClick={this.deleteProcedure} className="btn btn-danger">Изтрий</button>
+                        </div>
+                        : null
+                }
             </div>
         )
     }
@@ -74,7 +83,8 @@ Procedure.propTypes = {
 };
 
 Procedure.contextTypes = {
-    router: React.PropTypes.object
+    router: React.PropTypes.object,
+    authService: React.PropTypes.object
 };
 
 export default Procedure;
