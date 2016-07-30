@@ -21,3 +21,36 @@ Open another console and run:
 npm start
 ```
 The project is now live on localhost:3000
+## Project Description and Main Components
+Application provides following functionality:
+
+* *Anonymous users* can browse the website and and view information about the different procedures
+* *Registered users* can pick a procedure and make an appointment at the salon
+* *Beauticians* can edit the procedures info and browse through their appointments
+* *Administrators* can edit and delete procedures, edit and delete users and change their role
+
+JavaScript (ECMAScript 6) client part is available in `/app` folder. It uses *Webpack* and *webpack-dev-server*
+with HMR (Hot Module Replacement). Configuration is specified in webpack.config.js.
+
+Client side application is developed as *Singe Page Application (SPA)*. The app entry point is `app.js`, which
+imports *react-router* configuration specified in `beauty-salon.jsx`. The top-level application component is
+`main-view.jsx` (React JSX + ES6).
+
+Server side is implemented using *hapi.js (http://hapijs.com/)* *Node* framework and resides in `/beauty-salon-api`
+folder. The Beauty Salon API is proxied by webpack-dev-server configuration to port 9000 (configurable).
+Main server class is `server.js`.
+
+Two main features are implemented both on client and server side in this version of the project:
+* User management
+* Procedures management
+
+The server side implementation is all in the `server.js` file. Future versions will feature diversion of users` and
+procedures` routes and handlers into separate files for better usage and performance and code usability.
+
+Client side implementation uses React ES6 components and resides id `/app/componnents/views/users`, and
+`/app/componnents/views/procedures` accordingly.
+
+
+
+
+
