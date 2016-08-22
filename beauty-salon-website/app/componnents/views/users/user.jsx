@@ -1,30 +1,31 @@
 'use strict';
 
 import React from 'react';
-import $ from 'jquery';
 
 class User extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = { user: {} };
         this.isAuthenticated = context.authService.isAuthenticated();
-        this.isAdmin = false;
-        this.currentUser = {};
+        this.isAdmin = context.authService.isAdmin();
         this.getUser = this.getUser.bind(this);
         this.handleUserLogout = this.handleUserLogout.bind(this);
     }
 
-    getUser() {
-        $.ajax({
-            method: 'GET',
-            url: this.props.route.url + '/' + this.currentUser.id,
-            dataType: 'json',
-            cache: false
-        }).done((data) => {
-            this.setState({ user: data });
-        }).fail((xhr, status, err) => {
-            console.error(this.props.route.url, status, err.toString());
-        });
+    getUser(id) {
+        //$.ajax({
+        //    method: 'GET',
+        //    url: this.props.route.url + '/' + id,
+        //    dataType: 'json',
+        //    cache: false
+        //}).done((data) => {
+        //    this.setState({ user: data });
+        //}).fail((xhr, status, err) => {
+        //    console.error(this.props.route.url, status, err.toString());
+        //});
+        this.context.authService.getUserById(id).then((user) => {
+            this.setState({user: user});
+        })
     }
 
     handleUserLogout() {
@@ -34,13 +35,8 @@ class User extends React.Component {
     }
 
     componentDidMount() {
-        if(this.isAuthenticated) {
-            this.isAdmin = this.context.authService.isAdmin();
-            this.currentUser = this.context.authService.getUser();
-            this.getUser();
-        }else {
-            this.context.router.push('/');
-        }
+        let currentUser = this.context.authService.getUser();
+        this.getUser(currentUser.id);
     }
 
     render() {
@@ -60,7 +56,7 @@ class User extends React.Component {
 }
 
 User.propTypes = {
-    route: React.PropTypes.object,
+    //route: React.PropTypes.object,
     params: React.PropTypes.object
 };
 

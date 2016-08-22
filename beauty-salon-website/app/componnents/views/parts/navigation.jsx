@@ -7,6 +7,7 @@ import { Link } from 'react-router';
 
 const Navigation = (props) => {
     let isAuthenticated = props.isAuthenticated();
+    let isAdmin = props.isAdmin();
 
     return (
         <nav className="navbar navbar-inverse">
@@ -29,18 +30,24 @@ const Navigation = (props) => {
                             <ProcedureNames data={props.data} />
                         </li>
                     </ul>
-                    <div className="navbar-form navbar-right">
-                        <Link to="/procedures/add"><button type="button" className="btn btn-primary">Добави процедура</button></Link>
-                    </div>
+                    {
+                        isAdmin ?
+                            <div className="navbar-form navbar-right">
+                                <Link to="/procedures/add"><button type="button" className="btn btn-primary">Добави процедура</button></Link>
+                            </div>
+                        :
+                            null
+                    }
                     {
                         !isAuthenticated ?
                             <ul className="nav navbar-nav navbar-right">
                                 <li><Link to="/users/login">Логин</Link></li>
                                 <li><Link to="/users/register">Регистрация</Link></li>
                             </ul>
-                        : <ul className="nav navbar-nav navbar-right">
-                            <li><Link to="/users/show">Профил</Link></li>
-                        </ul>
+                        :
+                            <ul className="nav navbar-nav navbar-right">
+                                <li><Link to="/users/show">Профил</Link></li>
+                            </ul>
                     }
                 </div>
             </div>
@@ -50,7 +57,8 @@ const Navigation = (props) => {
 
 Navigation.propTypes = {
     data: React.PropTypes.array,
-    isAuthenticated: React.PropTypes.func
+    isAuthenticated: React.PropTypes.func,
+    isAdmin: React.PropTypes.func
 };
 
 export default Navigation;
