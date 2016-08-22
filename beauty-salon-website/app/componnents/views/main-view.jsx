@@ -42,12 +42,20 @@ class MainView extends React.Component {
         <div>
             <Navigation
                 data={this.state.data}
-                isAuthenticated={this.authenticationService.isAuthenticated}
-                isAdmin={this.authenticationService.isAdmin}
+                isAuthenticated={AuthenticationService.isAuthenticated}
+                isAdmin={AuthenticationService.isAdmin}
             />
 
             {/* Routed components go here... */}
-            {this.props.children}
+            {React.cloneElement(
+                this.props.children,
+                {
+                    isAuthenticated: AuthenticationService.isAuthenticated,
+                    isAdmin: AuthenticationService.isAdmin,
+                    getCurrentUser: AuthenticationService.getUser,
+                    logoutUser: AuthenticationService.logoutUser
+                }
+            )}
         </div>);
     }
 }

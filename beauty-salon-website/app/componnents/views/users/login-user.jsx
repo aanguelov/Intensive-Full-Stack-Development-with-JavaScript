@@ -25,8 +25,7 @@ class LoginUser extends React.Component {
             password: this.state.password
         };
 
-        this.context.authService.loginUser(user).then((logged) => {
-            console.log(logged);
+        this.context.authService.loginUser(user).then(() => {
             let path = '/users/show';
             this.context.router.push(path);
         });

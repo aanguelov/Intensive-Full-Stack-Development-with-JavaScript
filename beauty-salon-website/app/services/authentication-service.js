@@ -47,25 +47,39 @@ class AuthenticationService {
         return deferred.promise();
     }
 
-    logoutUser() {
+    registerUser(user) {
+        let deferred = $.Deferred();
+
+        $.ajax({
+            method: 'POST',
+            url: this.url,
+            dataType: 'json',
+            data: user
+        }).then((user) => {
+            deferred.resolve(user);
+        }, (err) => {
+            deferred.reject(err);
+        });
+
+        return deferred.promise();
+    }
+
+    static logoutUser() {
         sessionStorage.clear();
     }
 
-    getUser() {
+    static getUser() {
         let userObject = sessionStorage.currentUser;
         if (userObject) {
             return JSON.parse(sessionStorage.currentUser);
         }
     }
 
-    isAuthenticated() {
+    static isAuthenticated() {
         return sessionStorage.currentUser !== undefined;
     }
 
-    isAdmin() {
-        //let currentUser = this.getUser();
-        //return currentUser !== undefined && currentUser.isAdmin;
-
+    static isAdmin() {
         let userObject = sessionStorage.currentUser;
         if (userObject) {
             return JSON.parse(userObject).isAdmin;

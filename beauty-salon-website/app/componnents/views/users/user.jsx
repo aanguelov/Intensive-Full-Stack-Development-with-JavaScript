@@ -6,36 +6,25 @@ class User extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = { user: {} };
-        this.isAuthenticated = context.authService.isAuthenticated();
-        this.isAdmin = context.authService.isAdmin();
+        this.isAuthenticated = props.isAuthenticated;
+        this.isAdmin = props.isAdmin;
         this.getUser = this.getUser.bind(this);
         this.handleUserLogout = this.handleUserLogout.bind(this);
     }
 
     getUser(id) {
-        //$.ajax({
-        //    method: 'GET',
-        //    url: this.props.route.url + '/' + id,
-        //    dataType: 'json',
-        //    cache: false
-        //}).done((data) => {
-        //    this.setState({ user: data });
-        //}).fail((xhr, status, err) => {
-        //    console.error(this.props.route.url, status, err.toString());
-        //});
         this.context.authService.getUserById(id).then((user) => {
             this.setState({user: user});
         })
     }
 
     handleUserLogout() {
-        this.context.authService.logoutUser();
-        this.currentUser = {};
+        this.props.logoutUser();
         this.context.router.push('/');
     }
 
     componentDidMount() {
-        let currentUser = this.context.authService.getUser();
+        let currentUser = this.props.getCurrentUser();
         this.getUser(currentUser.id);
     }
 
@@ -57,7 +46,11 @@ class User extends React.Component {
 
 User.propTypes = {
     //route: React.PropTypes.object,
-    params: React.PropTypes.object
+    params: React.PropTypes.object,
+    isAdmin: React.PropTypes.func,
+    isAuthenticated: React.PropTypes.func,
+    getCurrentUser: React.PropTypes.func,
+    logoutUser: React.PropTypes.func
 };
 
 User.contextTypes = {

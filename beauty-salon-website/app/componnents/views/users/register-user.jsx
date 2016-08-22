@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import $ from 'jquery';
 
 class RegisterUser extends React.Component {
     constructor(props, context) {
@@ -37,25 +36,18 @@ class RegisterUser extends React.Component {
             confirmPassword: this.state.confirmPassword
         };
 
-        $.ajax({
-            method: 'POST',
-            url: this.props.route.url,
-            dataType: 'json',
-            data: user
-        }).done((user) => {
+        this.context.authService.registerUser(user).then((data) => {
             let registered = {
-                username: user.username,
-                password: user.password
+                username: data.username,
+                password: data.password
             };
 
             this.context.authService.loginUser(registered).then(() => {
                 let path = '/users/show';
                 this.context.router.push(path);
-            })
-
-        }).fail((xhr, status, err) => {
-            console.error(this.props.route.url, status, err.toString());
+            });
         });
+
     }
 
     render() {

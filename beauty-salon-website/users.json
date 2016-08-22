@@ -19,5 +19,12 @@
         "password": "123456",
         "confirmPassword": "123456",
         "isAdmin": false
+    },
+    {
+        "id": 1471889224812,
+        "username": "asasas",
+        "password": "111222",
+        "confirmPassword": "111222",
+        "isAdmin": false
     }
 ]
